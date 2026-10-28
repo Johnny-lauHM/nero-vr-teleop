@@ -1,0 +1,4 @@
+# The OpenArmX GitHub VR package imports this binary distribution for its
+# PinocchioTeleopCore.  scripts/install_python_deps.sh installs it into vendor/openarmx_python only.
+openarmx-arm-driver==1.3.3
+

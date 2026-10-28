@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nero-vr-teleop · 双臂 NERO VR 遥操作</title>
+<meta name="description" content="用 VR 头显手柄遥操作双臂 AgileX NERO + TacClaw：XRoboToolkit / OpenArmX Quest 输入，Pinocchio IK，ROS 2，100 Hz。">
+<meta property="og:title" content="nero-vr-teleop · 双臂 NERO VR 遥操作">
+<meta property="og:description" content="VR teleoperation for dual-arm AgileX NERO + TacClaw. XRoboToolkit / OpenArmX Quest input, Pinocchio IK, ROS 2.">
+<meta property="og:image" content="docs/images/nero_tacclaw_assembly.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface-2: #f0f0ec;
+  --text: #17191c;
+  --muted: #5d636b;
+  --line: #e2e2dc;
+  --accent: #c4572a;
+  --accent-2: #2f6fb0;
+  --code-bg: #15171a;
+  --code-text: #e8e6e1;
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1113;
+    --surface: #171a1d;
+    --surface-2: #1e2226;
+    --text: #ecebe7;
+    --muted: #9aa0a8;
+    --line: #2a2f34;
+    --accent: #e0774a;
+    --accent-2: #5b9be0;
+    --code-bg: #0b0c0e;
+    --code-text: #e8e6e1;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.7 "Inter", "Noto Sans SC", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+:not(pre) > code {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: .05em .4em;
+  font-size: .86em;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+/* nav */
+nav.top {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+nav.top .wrap { display: flex; align-items: center; gap: 24px; height: 56px; }
+nav.top .brand { font-weight: 700; color: var(--text); letter-spacing: -.01em; }
+nav.top .links { display: flex; gap: 18px; margin-left: auto; font-size: 14px; }
+nav.top .links a { color: var(--muted); }
+nav.top .links a:hover { color: var(--text); text-decoration: none; }
+@media (max-width: 760px) { nav.top .links a:not(.gh) { display: none; } }
+
+/* hero */
+header.hero { padding: 72px 0 40px; text-align: center; }
+.eyebrow {
+  display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: .06em;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 14px;
+}
+h1 {
+  font-size: clamp(34px, 6vw, 58px); line-height: 1.08; letter-spacing: -.03em;
+  margin: 0 0 18px; font-weight: 800;
+}
+h1 .hl { color: var(--accent); }
+.lede { font-size: clamp(16px, 2.2vw, 19px); color: var(--muted); max-width: 720px; margin: 0 auto 28px; }
+.cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 20px; border-radius: 10px; font-weight: 600; font-size: 15px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--text);
+  box-shadow: var(--shadow);
+}
+.btn:hover { text-decoration: none; transform: translateY(-1px); }
+.btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+.btn svg { width: 18px; height: 18px; }
+.chips { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+.chip {
+  font-size: 13px; color: var(--muted); padding: 4px 11px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+}
+.hero-figure { margin: 44px auto 0; max-width: 960px; }
+figure { margin: 0; }
+figure img {
+  width: 100%; display: block; border-radius: 14px;
+  border: 1px solid var(--line); box-shadow: var(--shadow); background: #fff;
+}
+figcaption { font-size: 13px; color: var(--muted); margin-top: 10px; text-align: center; }
+
+/* stats */
+.stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+  margin: 48px 0 0;
+}
+.stat { background: var(--surface); padding: 20px 18px; text-align: center; }
+.stat b { display: block; font-size: 28px; letter-spacing: -.02em; }
+.stat span { font-size: 13px; color: var(--muted); }
+@media (max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* sections */
+section { padding: 72px 0 8px; }
+h2 { font-size: clamp(26px, 3.6vw, 34px); letter-spacing: -.02em; margin: 0 0 10px; line-height: 1.2; }
+h3 { font-size: 18px; margin: 28px 0 10px; letter-spacing: -.01em; }
+.sub { color: var(--muted); margin: 0 0 28px; max-width: 760px; }
+
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (max-width: 860px) { .grid3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 620px) { .grid3, .grid2 { grid-template-columns: 1fr; } }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: 20px 20px 16px; box-shadow: var(--shadow);
+}
+.card h4 { margin: 0 0 6px; font-size: 16px; }
+.card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.card .icon {
+  width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent);
+  margin-bottom: 12px; font-size: 17px;
+}
+
+/* pipeline */
+.pipeline { display: grid; gap: 10px; }
+.stage {
+  display: grid; grid-template-columns: 150px 1fr; gap: 16px; align-items: start;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px;
+}
+.stage .k { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); padding-top: 3px; }
+.stage .v { font-size: 14.5px; }
+.stage .v small { color: var(--muted); display: block; font-size: 13px; }
+.arrow { text-align: center; color: var(--muted); font-size: 18px; line-height: 1; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 620px) { .stage { grid-template-columns: 1fr; gap: 4px; } .split { grid-template-columns: 1fr; } }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th, td { padding: 10px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); background: var(--surface-2); font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { white-space: nowrap; font-weight: 500; }
+
+/* code */
+pre {
+  background: var(--code-bg); color: var(--code-text);
+  padding: 16px 18px; border-radius: 12px; overflow-x: auto;
+  font-size: 13.5px; line-height: 1.6; margin: 0 0 14px;
+  border: 1px solid var(--line);
+}
+pre .c { color: #8a9099; }
+.steps { counter-reset: step; display: grid; gap: 22px; }
+.step { position: relative; padding-left: 46px; }
+.step::before {
+  counter-increment: step; content: counter(step);
+  position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--text); color: var(--bg); font-weight: 700; font-size: 14px;
+  display: grid; place-items: center;
+}
+.step h4 { margin: 2px 0 8px; font-size: 16px; }
+.step p { margin: 0 0 10px; color: var(--muted); font-size: 14.5px; }
+
+/* controls */
+.controls { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+@media (max-width: 860px) { .controls { grid-template-columns: repeat(2, 1fr); } }
+.ctl { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.ctl .key { font-weight: 700; font-size: 15px; }
+.ctl .act { color: var(--muted); font-size: 13.5px; margin-top: 4px; }
+
+.callout {
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  border-radius: 12px; padding: 16px 18px; font-size: 14.5px;
+}
+.callout b { color: var(--accent); }
+
+footer { margin-top: 80px; padding: 32px 0 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13.5px; }
+footer .wrap { display: flex; gap: 24px; flex-wrap: wrap; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="#">nero-vr-teleop</a>
+    <div class="links">
+      <a href="#pipeline">链路</a>
+      <a href="#assembly">装配与 TCP</a>
+      <a href="#nero">NERO 适配</a>
+      <a href="#start">快速开始</a>
+      <a href="#controls">操作</a>
+      <a class="gh" href="https://github.com/Johnny-lauHM/nero-vr-teleop">GitHub ↗</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Dual-arm NERO · VR Teleoperation</div>
+    <h1>戴上头显，<span class="hl">双手</span>驱动两台 NERO</h1>
+    <p class="lede">从 VR 手柄到机械臂关节的完整遥操作链路：XRoboToolkit / OpenArmX Quest 输入，OpenArmX Pinocchio IK，100 Hz 控制两台 AgileX NERO 7 自由度机械臂和两只 TacClaw 夹爪。</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/Johnny-lauHM/nero-vr-teleop">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub 仓库
+      </a>
+      <a class="btn" href="#start">快速开始 →</a>
+    </div>
+    <div class="chips">
+      <span class="chip">ROS 2 Humble</span>
+      <span class="chip">Python 3.10</span>
+      <span class="chip">Pinocchio IK</span>
+      <span class="chip">XRoboToolkit · PICO</span>
+      <span class="chip">OpenArmX · Quest</span>
+      <span class="chip">CC BY-NC-SA 4.0</span>
+    </div>
+
+    <figure class="hero-figure">
+      <img src="docs/images/nero_tacclaw_assembly.png" alt="双 NERO + TacClaw 装配渲染：正视、斜视、夹爪特写与侧视">
+      <figcaption>双臂 NERO + DM-TacClaw 装配渲染（官方 NERO mesh + 厂商 TacClaw CAD，硬件零位，基座间距 260 mm）</figcaption>
+    </figure>
+
+    <div class="stats">
+      <div class="stat"><b>100 Hz</b><span>控制循环</span></div>
+      <div class="stat"><b>2 × 7</b><span>NERO 关节</span></div>
+      <div class="stat"><b>2</b><span>TacClaw 夹爪</span></div>
+      <div class="stat"><b>2</b><span>VR 输入后端</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section id="features">
+  <h2>功能</h2>
+  <p class="sub">一套完整的双臂遥操作：从启动、只读核对到真机执行，每一步都有明确的门槛。</p>
+  <div class="grid3">
+    <div class="card"><div class="icon">◎</div><h4>两种 VR 输入</h4><p>XRoboToolkit（PICO，USB adb reverse），控制器位姿归一化到头显水平朝向；或 OpenArmX 官方 Quest APK（Wi-Fi UDP 5100）。</p></div>
+    <div class="card"><div class="icon">✋</div><h4>Grip 离合</h4><p>按住 Grip 接管同侧机械臂（相对锚定），松开立即停止该侧新命令，重新按下重新锚定。</p></div>
+    <div class="card"><div class="icon">⟡</div><h4>Trigger 夹爪</h4><p>Trigger 线性映射到 TacClaw 开合（0 → 全开 1000，1 → 全闭 0），不依赖 Grip。</p></div>
+    <div class="card"><div class="icon">↺</div><h4>预设动作</h4><p>右手 B 双臂回零位；左手 Y 双臂 hands-up（J4 = 90°）。动作中按任意 Grip 立即打断。</p></div>
+    <div class="card"><div class="icon">▤</div><h4>分级运行</h4><p><code>--check</code> 离线模型检查 → <code>--shadow</code> 只求解不发布 → <code>--execute</code> 真机。</p></div>
+    <div class="card"><div class="icon">⏱</div><h4>失效即停</h4><p>输入超时 0.3 s、反馈超时 0.25 s、非有限数或 IK 异常都会停止新命令；XRT 输入中断会撤销 Grip 授权。</p></div>
+  </div>
+</section>
+
+<section id="pipeline">
+  <h2>系统链路</h2>
+  <p class="sub">VR 输入先转换成 OpenArmX 兼容的 ROS 2 话题，再经过 IK、姿态约束和限幅，分别下发到两台 NERO 和两只夹爪。</p>
+  <div class="pipeline">
+    <div class="split">
+      <div class="stage"><div class="k">输入 A</div><div class="v">XRoboToolkit PC Service<small>PICO / 适配 Quest · USB <code>adb reverse :63901</code> · <code>xrobotoolkit_bridge.py</code>（Grip 互锁 + 头显朝向归一化）</small></div></div>
+      <div class="stage"><div class="k">输入 B</div><div class="v">OpenArmX Quest APK<small>Wi-Fi UDP <code>:5100</code> · 官方 C++ <code>openarmx_teleop_bridge_vr</code></small></div></div>
+    </div>
+    <div class="arrow">↓</div>
+    <div class="stage"><div class="k">ROS 2 话题</div><div class="v"><code>/pico_{left,right}_controller/*</code> · <code>/vr/head/pose</code></div></div>
+    <div class="arrow">↓</div>
+    <div class="stage"><div class="k">Teleop 100 Hz</div><div class="v"><code>nerox_openarmx_teleop.node</code><small>XR → 机器人坐标基 → OpenArmX Pinocchio IK（双 NERO 模型）→ 低肘姿态包络 → 关节步进限幅</small></div></div>
+    <div class="arrow">↓</div>
+    <div class="split">
+      <div class="stage"><div class="k">机械臂</div><div class="v">agx_arm_ctrl × 2 · pyAgxArm · CAN<small>左手 → <code>arm_b</code> (can_arm_b) · 右手 → <code>arm_a</code> (can_arm_a)</small></div></div>
+      <div class="stage"><div class="k">夹爪</div><div class="v">TacClaw workers · TCP 55552 · HMAC<small>左 192.168.127.10 · 右 192.168.127.11</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="assembly">
+  <h2>装配与 TCP</h2>
+  <p class="sub">下图由 <code>tools/render_frames_diagram.py</code> 对 <code>models/source/nero_dual_tacclaw.urdf</code> 做正运动学直接生成，与 IK 使用的模型一致。</p>
+  <figure>
+    <img src="docs/images/nero_frames.png" alt="双 NERO 运动学与 TCP 坐标系：正视图零位，侧视图零位与 hands-up 对比">
+    <figcaption>左：正视零位，标注基座间距、各段长度与 TCP 坐标轴。右：侧视，零位（灰）与 Y 键 hands-up（蓝）对比。</figcaption>
+  </figure>
+
+  <div class="grid2" style="margin-top:28px">
+    <div>
+      <h3>世界坐标系 <code>lab_world</code></h3>
+      <div class="table-wrap"><table>
+        <tr><th>轴</th><th>方向</th></tr>
+        <tr><td>+X</td><td>前方（工作区）</td></tr>
+        <tr><td>+Y</td><td>机器人左侧（<code>arm_b</code>）</td></tr>
+        <tr><td>+Z</td><td>竖直向上；原点在两基座中点</td></tr>
+      </table></div>
+      <h3>装配参数</h3>
+      <div class="table-wrap"><table>
+        <tr><th>项目</th><th>值</th></tr>
+        <tr><td><code>arm_a</code> 基座</td><td>xyz [0, −0.130, 0] m · rpy [π/2, π/2, 0]</td></tr>
+        <tr><td><code>arm_b</code> 基座</td><td>xyz [0, +0.130, 0] m · rpy [−π/2, π/2, 0]</td></tr>
+        <tr><td>基座间距</td><td>260 mm</td></tr>
+        <tr><td>肩部外伸（J1）</td><td>138 mm</td></tr>
+        <tr><td>大臂 J2 → J3</td><td>310 mm（J4 与 J3 同原点）</td></tr>
+        <tr><td>小臂 J4 → J5</td><td>270 mm</td></tr>
+        <tr><td>腕部偏置 J6 → J7</td><td>23.5 mm</td></tr>
+        <tr><td>硬件零位</td><td>写入关节 origin；直接使用编码器角度</td></tr>
+      </table></div>
+    </div>
+    <div>
+      <h3>TCP（指尖中点）</h3>
+      <div class="table-wrap"><table>
+        <tr><th>项目</th><th>值</th></tr>
+        <tr><td>link7 → TCP</td><td>xyz [0.22548, 0, −0.0235] m · rpy [0, π/2, 0]</td></tr>
+        <tr><td>TCP z 轴</td><td>接近方向（零位向下，hands-up 朝 +X）</td></tr>
+        <tr><td>零位 TCP</td><td>(0, ±0.268, −0.8055) m</td></tr>
+        <tr><td>hands-up TCP</td><td>(0.4955, ±0.268, −0.310) m</td></tr>
+        <tr><td>TacClaw 外形</td><td>长 194.48 mm · 宽 124.45 mm · 行程 100 mm</td></tr>
+      </table></div>
+      <h3>VR → 机器人坐标基</h3>
+<pre>robot X ← −XR Z   <span class="c"># 操作者前方 → 机器人前方</span>
+robot Y ← −XR X   <span class="c"># 操作者左方 → 机器人左方</span>
+robot Z ← +XR Y   <span class="c"># 上 → 上</span></pre>
+      <p class="sub" style="font-size:14px;margin:0">平移与姿态共用矩阵 <code>[[0,0,-1],[-1,0,0],[0,1,0]]</code>。操作者与机器人同向站立时，手的运动就是 TCP 的运动；不同头显的水平朝向差异用 <code>--input-yaw-deg</code> 校准。</p>
+    </div>
+  </div>
+  <p class="sub" style="font-size:13.5px;margin-top:16px">TacClaw 几何是根据 V1.0 说明书和实物照片估计的，不是厂商的标定 CAD，只用于运动学，不能用来做碰撞规划。</p>
+</section>
+
+<section id="nero">
+  <h2>NERO 适配</h2>
+  <p class="sub">IK 核心和 VR 输入语义来自 OpenArmX。下面这些是针对 NERO 和这套双臂装配做的适配。</p>
+  <div class="table-wrap"><table>
+    <tr><th>模块</th><th>适配内容</th></tr>
+    <tr><td>运动学模型</td><td>双臂装配 URDF：基座间距、安装旋转、硬件零位、TacClaw TCP。生成 IK 模型时只改名（<code>arm_b/arm_a</code> → <code>left/right</code>），并去掉 visual/collision，不做关节符号或零位偏移。</td></tr>
+    <tr><td>左右映射</td><td>左手 → <code>arm_b</code>，右手 → <code>arm_a</code>；14 维与 2 × 7 维之间只调整顺序。</td></tr>
+    <tr><td>坐标基</td><td>用针对这套装配标定的 NERO/XR 坐标基替换 OpenArmX 默认矩阵，提供 <code>--input-yaw-deg</code> 做朝向校准。</td></tr>
+    <tr><td>驱动接口</td><td>Grip 跟随走 <code>control/joint_states</code> 快速模式；B/Y 预设走 <code>control/move_j</code> 固件位置控制，因为快速模式在腕部负载下实测 J4 残差 2.1°。命令门在反馈和负载就绪后才打开，退出时先关命令门再失能电机。</td></tr>
+    <tr><td>固件负载</td><td>NERO V1.2.1 的负载码与 pyAgxArm 里的 Piper 枚举不同，所以直接发 CAN <code>0x477</code> 原始帧，按 TacClaw 1.010 kg 写 <code>half</code> 档。</td></tr>
+    <tr><td>姿态约束</td><td>低肘包络：肘高、|J2|、|J3| 上限。IK 解超出包络时保持上一条安全命令；J2/J3/J4 有单独的正则权重。</td></tr>
+    <tr><td>预设动作</td><td>B 回零；Y 为 J4 = min(90°, URDF 上限)。所有关节误差 ≤ 1° 且持续 5 个周期才判定到位。</td></tr>
+    <tr><td>TacClaw</td><td>HMAC 认证，校验编码器标定、速度/力矩和 watchdog。夹爪故障只保持夹爪输出，不会停掉 NERO 手臂。</td></tr>
+  </table></div>
+</section>
+
+<section id="start">
+  <h2>快速开始</h2>
+  <p class="sub">需要 Ubuntu 22.04、ROS 2 Humble 和 Python 3.10。头显连接的详细步骤见 <a href="https://github.com/Johnny-lauHM/nero-vr-teleop/blob/main/docs/XROBOTOOLKIT_STARTUP.md">XRoboToolkit 启动手册</a>。</p>
+  <div class="steps">
+    <div class="step">
+      <h4>安装与构建</h4>
+<pre>git clone --recursive https://github.com/Johnny-lauHM/nero-vr-teleop.git
+cd nero-vr-teleop
+export NEROX_PYTHON=$(which python)      <span class="c"># Python 3.10</span>
+bash scripts/install_python_deps.sh
+bash scripts/build.sh                    <span class="c"># 驱动 + UDP bridge → .runtime/</span>
+./nerox_teleop.sh --check                <span class="c"># 离线加载双臂模型与 IK</span></pre>
+    </div>
+    <div class="step">
+      <h4>Shadow 只读核对</h4>
+      <p>驱动只发布反馈、不使能电机；按住 Grip 时日志里的 <code>solves</code> 递增、<code>publishes=0</code>。</p>
+<pre>./start_teleop.sh --shadow --input-backend xrobotoolkit</pre>
+    </div>
+    <div class="step">
+      <h4>真机执行</h4>
+      <p>先确认空间净空、急停可用，没有其他进程占用同一 CAN。</p>
+<pre>./start_teleop.sh --execute --input-backend xrobotoolkit
+<span class="c"># 带双 TacClaw</span>
+./start_teleop.sh --execute --input-backend xrobotoolkit \
+  --with-tacclaw --tacclaw-clearance-confirmed --tacclaw-speed 50</pre>
+    </div>
+  </div>
+</section>
+
+<section id="controls">
+  <h2>手柄操作</h2>
+  <p class="sub">XRT 输入的 Grip 接管阈值为 0.9；首次使用或输入中断后，需要先完全松开双侧 Grip ≥ 0.25 s。</p>
+  <div class="controls">
+    <div class="ctl"><div class="key">左 Grip</div><div class="act">接管 arm_b（左臂）</div></div>
+    <div class="ctl"><div class="key">右 Grip</div><div class="act">接管 arm_a（右臂）</div></div>
+    <div class="ctl"><div class="key">Trigger</div><div class="act">同侧 TacClaw 开合</div></div>
+    <div class="ctl"><div class="key">右手 B</div><div class="act">双臂回零位</div></div>
+    <div class="ctl"><div class="key">左手 Y</div><div class="act">hands-up，J4 = 90°</div></div>
+  </div>
+  <div class="callout" style="margin-top:20px">
+    <b>安全提示</b>：这个软件会直接驱动真实机械臂。仓库里没有碰撞检测，也没有笛卡尔工作空间限制，B/Y 预设动作不做环境碰撞规划。一定先用 <code>--shadow</code> 核对方向，第一次 execute 只做小幅运动，并始终保证物理急停可用。
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>nero-vr-teleop · <a href="https://github.com/Johnny-lauHM/nero-vr-teleop/blob/main/LICENSE">CC BY-NC-SA 4.0</a>（非商业用途）· <a href="https://github.com/Johnny-lauHM/nero-vr-teleop/blob/main/NOTICE.md">第三方声明</a></div>
+    <div>致谢 <a href="https://github.com/openarmx">OpenArmX</a> · <a href="https://github.com/agilexrobotics">AgileX</a> · <a href="https://github.com/XR-Robotics">XR-Robotics</a> · <a href="https://github.com/stack-of-tasks/pinocchio">Pinocchio</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

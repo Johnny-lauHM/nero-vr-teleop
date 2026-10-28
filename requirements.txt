@@ -1,0 +1,9 @@
+# Python 3.10 (matches ROS 2 Humble and the openarmx-arm-driver cp310 wheel).
+numpy>=1.26
+pin==3.8.0
+scipy>=1.10
+python-can>=4.0
+typing-extensions>=4.0
+pytest>=8.0
+# tools/render_frames_diagram.py only
+matplotlib>=3.7

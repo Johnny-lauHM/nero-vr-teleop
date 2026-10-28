@@ -1,0 +1,718 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="nero_dual_tacclaw">
+  <!-- Current accepted assembly geometry as of 2026-08-24. NERO meshes are official; TacClaw visuals are manual-dimension approximations, not vendor CAD or validated collision geometry. -->
+  <link name="lab_world" />
+  <joint name="arm_a_world_to_base_link" type="fixed">
+    <parent link="lab_world" />
+    <child link="arm_a_base_link" />
+    <origin xyz="0 -0.13 0" rpy="1.570796327 1.570796327 0" />
+  </joint>
+  <link name="arm_a_base_link">
+    <inertial>
+      <origin xyz="-0.00319465997 -0.00005467608 0.04321758463" rpy="0 0 0" />
+      <mass value="1.06458435" />
+      <inertia ixx="0.00102659855152" ixy="0.00000186219753" ixz="-0.00000295298037" iyy="0.00114399299508" iyz="-0.00000078763492" izz="0.00090872933022" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/base_link.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/base_link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_a_link1">
+    <inertial>
+      <origin xyz="-0.00076810578 -0.00005718031 -0.00686372765" rpy="0 0 0" />
+      <mass value="0.76710504" />
+      <inertia ixx="0.00066689512233" ixy="0.00000273938306" ixz="0.00001463284987" iyy="0.00054501235592" iyz="0.00000183168344" izz="0.00051509465737" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link1.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link1.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_a_link2">
+    <inertial>
+      <origin xyz="0.00079686657 -0.07890325930 0.00111849422" rpy="0 0 0" />
+      <mass value="0.69381908" />
+      <inertia ixx="0.00201093857656" ixy="-0.00002399426785" ixz="-0.00000072824714" iyy="0.00063544232555" iyz="0.00005831284343" izz="0.00181943989593" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link2.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link2.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_a_link3">
+    <inertial>
+      <origin xyz="0.00014513363 -0.00121378766 -0.04861136795" rpy="0 0 0" />
+      <mass value="0.67246544" />
+      <inertia ixx="0.00343229961910" ixy="-0.00000026976739" ixz="0.00000305078107" iyy="0.00338662526897" iyz="-0.00003550220027" izz="0.00028853579710" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link3.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link3.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_a_link4">
+    <inertial>
+      <origin xyz="-0.00031334623 -0.05675192422 0.00076056133" rpy="0 0 0" />
+      <mass value="0.48451414" />
+      <inertia ixx="0.00050386693505" ixy="-0.00000529675237" ixz="0.00000006134740" iyy="0.00023502068202" iyz="0.00001815932566" izz="0.00040149523118" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link4.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link4.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_a_link5">
+    <inertial>
+      <origin xyz="0.00265591357 0.00201195753 -0.11620855434" rpy="0 0 0" />
+      <mass value="0.58368405" />
+      <inertia ixx="0.00089537686723" ixy="0.00000648218232" ixz="-0.00001463346849" iyy="0.00085866122972" iyz="-0.00004035185637" izz="0.00021774946532" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link5.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link5.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_a_link6">
+    <inertial>
+      <origin xyz="0.00009501505 0.00107831174 -0.00019110990" rpy="0 0 0" />
+      <mass value="0.3140406" />
+      <inertia ixx="0.00006027211661" ixy="-0.00000024650903" ixz="0.00000015701294" iyy="0.00004699514792" iyz="0.00000004170875" izz="0.00005756771792" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link6.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link6.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_a_link7">
+    <inertial>
+      <origin xyz="-0.00014000 -0.00010000 -0.00275000" rpy="0 0 0" />
+      <mass value="0.000001" />
+      <inertia ixx="1.1000000000000001e-07" ixy="0" ixz="0" iyy="1.1000000000000001e-07" iyz="0" izz="1.9999999999999999e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link7.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link7.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="arm_a_joint1" type="revolute">
+    <origin xyz="0 0 0.138" rpy="0 -0 0" />
+    <parent link="arm_a_base_link" />
+    <child link="arm_a_link1" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.70526" upper="2.70526" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_a_joint2" type="revolute">
+    <origin xyz="0 0 0" rpy="-2.034443935 -1.570796267 -2.677945045" />
+    <parent link="arm_a_link1" />
+    <child link="arm_a_link2" />
+    <axis xyz="-0 -0 -1" />
+    <limit lower="-1.74" upper="1.74" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_a_joint3" type="revolute">
+    <origin xyz="0 -0.31 0" rpy="-2.28522397e-09 -1.570796301 1.570796368" />
+    <parent link="arm_a_link2" />
+    <child link="arm_a_link3" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.75" upper="2.75" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_a_joint4" type="revolute">
+    <origin xyz="0 0 0" rpy="-1.5707963 -0 -3.141592615" />
+    <parent link="arm_a_link3" />
+    <child link="arm_a_link4" />
+    <axis xyz="0 0 1" />
+    <limit lower="-1.01" upper="2.14" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_a_joint5" type="revolute">
+    <origin xyz="0 -0.27001 0" rpy="1.5707963 -1.570796301 0" />
+    <parent link="arm_a_link4" />
+    <child link="arm_a_link5" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.75" upper="2.75" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_a_joint6" type="revolute">
+    <origin xyz="0 0 0" rpy="1.5707963 -1.570796301 0" />
+    <parent link="arm_a_link5" />
+    <child link="arm_a_link6" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.73" upper="0.95" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_a_joint7" type="revolute">
+    <origin xyz="0 -0.0235 0" rpy="1.5707963 -0 0" />
+    <parent link="arm_a_link6" />
+    <child link="arm_a_link7" />
+    <axis xyz="0 0 1" />
+    <limit lower="-1.5707963" upper="1.5707963" effort="100" velocity="5" />
+  </joint>
+  <link name="arm_a_tcp_link">
+    <visual name="arm_a_tcp_marker">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.008" />
+      </geometry>
+      <material name="tcp_marker" />
+    </visual>
+  </link>
+  <joint name="arm_a_tcp_joint" type="fixed">
+    <parent link="arm_a_link7" />
+    <child link="arm_a_tcp_link" />
+    <origin xyz="0.22548 0 -0.0235" rpy="0 1.570796327 0" />
+  </joint>
+  <joint name="arm_b_world_to_base_link" type="fixed">
+    <parent link="lab_world" />
+    <child link="arm_b_base_link" />
+    <origin xyz="0 0.13 0" rpy="-1.570796327 1.570796327 0" />
+  </joint>
+  <link name="arm_b_base_link">
+    <inertial>
+      <origin xyz="-0.00319465997 -0.00005467608 0.04321758463" rpy="0 0 0" />
+      <mass value="1.06458435" />
+      <inertia ixx="0.00102659855152" ixy="0.00000186219753" ixz="-0.00000295298037" iyy="0.00114399299508" iyz="-0.00000078763492" izz="0.00090872933022" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/base_link.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/base_link.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_b_link1">
+    <inertial>
+      <origin xyz="-0.00076810578 -0.00005718031 -0.00686372765" rpy="0 0 0" />
+      <mass value="0.76710504" />
+      <inertia ixx="0.00066689512233" ixy="0.00000273938306" ixz="0.00001463284987" iyy="0.00054501235592" iyz="0.00000183168344" izz="0.00051509465737" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link1.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link1.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_b_link2">
+    <inertial>
+      <origin xyz="0.00079686657 -0.07890325930 0.00111849422" rpy="0 0 0" />
+      <mass value="0.69381908" />
+      <inertia ixx="0.00201093857656" ixy="-0.00002399426785" ixz="-0.00000072824714" iyy="0.00063544232555" iyz="0.00005831284343" izz="0.00181943989593" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link2.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link2.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_b_link3">
+    <inertial>
+      <origin xyz="0.00014513363 -0.00121378766 -0.04861136795" rpy="0 0 0" />
+      <mass value="0.67246544" />
+      <inertia ixx="0.00343229961910" ixy="-0.00000026976739" ixz="0.00000305078107" iyy="0.00338662526897" iyz="-0.00003550220027" izz="0.00028853579710" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link3.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link3.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_b_link4">
+    <inertial>
+      <origin xyz="-0.00031334623 -0.05675192422 0.00076056133" rpy="0 0 0" />
+      <mass value="0.48451414" />
+      <inertia ixx="0.00050386693505" ixy="-0.00000529675237" ixz="0.00000006134740" iyy="0.00023502068202" iyz="0.00001815932566" izz="0.00040149523118" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link4.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link4.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_b_link5">
+    <inertial>
+      <origin xyz="0.00265591357 0.00201195753 -0.11620855434" rpy="0 0 0" />
+      <mass value="0.58368405" />
+      <inertia ixx="0.00089537686723" ixy="0.00000648218232" ixz="-0.00001463346849" iyy="0.00085866122972" iyz="-0.00004035185637" izz="0.00021774946532" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link5.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link5.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_b_link6">
+    <inertial>
+      <origin xyz="0.00009501505 0.00107831174 -0.00019110990" rpy="0 0 0" />
+      <mass value="0.3140406" />
+      <inertia ixx="0.00006027211661" ixy="-0.00000024650903" ixz="0.00000015701294" iyy="0.00004699514792" iyz="0.00000004170875" izz="0.00005756771792" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link6.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link6.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="arm_b_link7">
+    <inertial>
+      <origin xyz="-0.00014000 -0.00010000 -0.00275000" rpy="0 0 0" />
+      <mass value="0.000001" />
+      <inertia ixx="1.1000000000000001e-07" ixy="0" ixz="0" iyy="1.1000000000000001e-07" iyz="0" izz="1.9999999999999999e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/dae/link7.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nero_tacclaw_description/meshes/link7.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="arm_b_joint1" type="revolute">
+    <origin xyz="0 0 0.138" rpy="0 -0 0" />
+    <parent link="arm_b_base_link" />
+    <child link="arm_b_link1" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.70526" upper="2.70526" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_b_joint2" type="revolute">
+    <origin xyz="0 0 0" rpy="-2.034443935 -1.570796267 -2.677945045" />
+    <parent link="arm_b_link1" />
+    <child link="arm_b_link2" />
+    <axis xyz="-0 -0 -1" />
+    <limit lower="-1.74" upper="1.74" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_b_joint3" type="revolute">
+    <origin xyz="0 -0.31 0" rpy="-2.28522397e-09 1.570796301 -1.57079629" />
+    <parent link="arm_b_link2" />
+    <child link="arm_b_link3" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.75" upper="2.75" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_b_joint4" type="revolute">
+    <origin xyz="0 0 0" rpy="-1.5707963 -0 -3.141592615" />
+    <parent link="arm_b_link3" />
+    <child link="arm_b_link4" />
+    <axis xyz="0 0 1" />
+    <limit lower="-1.01" upper="2.14" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_b_joint5" type="revolute">
+    <origin xyz="0 -0.27001 0" rpy="1.5707963 -1.570796301 0" />
+    <parent link="arm_b_link4" />
+    <child link="arm_b_link5" />
+    <axis xyz="0 0 1" />
+    <limit lower="-2.75" upper="2.75" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_b_joint6" type="revolute">
+    <origin xyz="0 0 0" rpy="1.5707963 -1.570796301 0" />
+    <parent link="arm_b_link5" />
+    <child link="arm_b_link6" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.73" upper="0.95" effort="100" velocity="5" />
+  </joint>
+  <joint name="arm_b_joint7" type="revolute">
+    <origin xyz="0 -0.0235 0" rpy="1.5707963 -0 0" />
+    <parent link="arm_b_link6" />
+    <child link="arm_b_link7" />
+    <axis xyz="0 0 1" />
+    <limit lower="-1.5707963" upper="1.5707963" effort="100" velocity="5" />
+  </joint>
+  <link name="arm_b_tcp_link">
+    <visual name="arm_b_tcp_marker">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.008" />
+      </geometry>
+      <material name="tcp_marker" />
+    </visual>
+  </link>
+  <joint name="arm_b_tcp_joint" type="fixed">
+    <parent link="arm_b_link7" />
+    <child link="arm_b_tcp_link" />
+    <origin xyz="0.22548 0 -0.0235" rpy="0 1.570796327 0" />
+  </joint>
+  <material name="tacclaw_charcoal">
+    <color rgba="0.085 0.095 0.11 1" />
+  </material>
+  <material name="tacclaw_panel">
+    <color rgba="0.16 0.17 0.18 1" />
+  </material>
+  <material name="tacclaw_black">
+    <color rgba="0.015 0.018 0.022 1" />
+  </material>
+  <material name="tacclaw_lens">
+    <color rgba="0.025 0.11 0.16 1" />
+  </material>
+  <material name="tacclaw_tactile">
+    <color rgba="1 0.34 0.035 1" />
+  </material>
+  <material name="tacclaw_mount">
+    <color rgba="0.46 0.48 0.50 1" />
+  </material>
+  <material name="tcp_marker">
+    <color rgba="0.2 1 0.35 0.85" />
+  </material>
+  <link name="arm_a_tacclaw_visual">
+    <visual name="arm_a_mount_plate">
+      <origin xyz="0 0 0.002" rpy="0 0 0" />
+      <geometry>
+        <box size="0.0728 0.0408 0.004" />
+      </geometry>
+      <material name="tacclaw_mount" />
+    </visual>
+    <visual name="arm_a_body">
+      <origin xyz="0 0 0.04" rpy="0 0 0" />
+      <geometry>
+        <box size="0.077 0.08 0.068" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_a_front_panel">
+      <origin xyz="0 -0.041 0.04" rpy="0 0 0" />
+      <geometry>
+        <box size="0.068 0.006 0.054" />
+      </geometry>
+      <material name="tacclaw_panel" />
+    </visual>
+    <visual name="arm_a_camera_housing">
+      <origin xyz="0 -0.064 0.041" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.025" />
+      </geometry>
+      <material name="tacclaw_black" />
+    </visual>
+    <visual name="arm_a_camera_lens">
+      <origin xyz="0 -0.088 0.041" rpy="1.570796327 0 0" />
+      <geometry>
+        <cylinder radius="0.014" length="0.006" />
+      </geometry>
+      <material name="tacclaw_lens" />
+    </visual>
+    <visual name="arm_a_rear_connector">
+      <origin xyz="0 0.064 0.039" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.025" />
+      </geometry>
+      <material name="tacclaw_black" />
+    </visual>
+    <visual name="arm_a_neck">
+      <origin xyz="0 0 0.079" rpy="0 0 0" />
+      <geometry>
+        <box size="0.058 0.054 0.028" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_a_negative_finger_lower">
+      <origin xyz="-0.0293099 0 0.107" rpy="0 -0.284466131 0" />
+      <geometry>
+        <cylinder radius="0.015" length="0.05209355576" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_a_negative_finger_upper">
+      <origin xyz="-0.0323319 0 0.15725" rpy="0 0.1682130907 0" />
+      <geometry>
+        <cylinder radius="0.012" length="0.0512229865" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_a_negative_tactile_lower">
+      <origin xyz="-0.0193099 -0.001 0.107" rpy="0 -0.284466131 0" />
+      <geometry>
+        <cylinder radius="0.0055" length="0.05209355576" />
+      </geometry>
+      <material name="tacclaw_tactile" />
+    </visual>
+    <visual name="arm_a_negative_tactile_upper">
+      <origin xyz="-0.0223319 -0.001 0.15725" rpy="0 0.1682130907 0" />
+      <geometry>
+        <cylinder radius="0.005" length="0.0512229865" />
+      </geometry>
+      <material name="tacclaw_tactile" />
+    </visual>
+    <visual name="arm_a_negative_tip">
+      <origin xyz="-0.028044 0 0.1825" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.012" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_a_positive_finger_lower">
+      <origin xyz="0.0293099 0 0.107" rpy="0 0.284466131 0" />
+      <geometry>
+        <cylinder radius="0.015" length="0.05209355576" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_a_positive_finger_upper">
+      <origin xyz="0.0323319 0 0.15725" rpy="0 -0.1682130907 0" />
+      <geometry>
+        <cylinder radius="0.012" length="0.0512229865" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_a_positive_tactile_lower">
+      <origin xyz="0.0193099 -0.001 0.107" rpy="0 0.284466131 0" />
+      <geometry>
+        <cylinder radius="0.0055" length="0.05209355576" />
+      </geometry>
+      <material name="tacclaw_tactile" />
+    </visual>
+    <visual name="arm_a_positive_tactile_upper">
+      <origin xyz="0.0223319 -0.001 0.15725" rpy="0 -0.1682130907 0" />
+      <geometry>
+        <cylinder radius="0.005" length="0.0512229865" />
+      </geometry>
+      <material name="tacclaw_tactile" />
+    </visual>
+    <visual name="arm_a_positive_tip">
+      <origin xyz="0.028044 0 0.1825" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.012" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+  </link>
+  <joint name="arm_a_tacclaw_mount" type="fixed">
+    <parent link="arm_a_link7" />
+    <child link="arm_a_tacclaw_visual" />
+    <origin xyz="0.031 0 -0.0235" rpy="0 1.570796326794897 0" />
+  </joint>
+  <link name="arm_b_tacclaw_visual">
+    <visual name="arm_b_mount_plate">
+      <origin xyz="0 0 0.002" rpy="0 0 0" />
+      <geometry>
+        <box size="0.0728 0.0408 0.004" />
+      </geometry>
+      <material name="tacclaw_mount" />
+    </visual>
+    <visual name="arm_b_body">
+      <origin xyz="0 0 0.04" rpy="0 0 0" />
+      <geometry>
+        <box size="0.077 0.08 0.068" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_b_front_panel">
+      <origin xyz="0 -0.041 0.04" rpy="0 0 0" />
+      <geometry>
+        <box size="0.068 0.006 0.054" />
+      </geometry>
+      <material name="tacclaw_panel" />
+    </visual>
+    <visual name="arm_b_camera_housing">
+      <origin xyz="0 -0.064 0.041" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.025" />
+      </geometry>
+      <material name="tacclaw_black" />
+    </visual>
+    <visual name="arm_b_camera_lens">
+      <origin xyz="0 -0.088 0.041" rpy="1.570796327 0 0" />
+      <geometry>
+        <cylinder radius="0.014" length="0.006" />
+      </geometry>
+      <material name="tacclaw_lens" />
+    </visual>
+    <visual name="arm_b_rear_connector">
+      <origin xyz="0 0.064 0.039" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.025" />
+      </geometry>
+      <material name="tacclaw_black" />
+    </visual>
+    <visual name="arm_b_neck">
+      <origin xyz="0 0 0.079" rpy="0 0 0" />
+      <geometry>
+        <box size="0.058 0.054 0.028" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_b_negative_finger_lower">
+      <origin xyz="-0.0293099 0 0.107" rpy="0 -0.284466131 0" />
+      <geometry>
+        <cylinder radius="0.015" length="0.05209355576" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_b_negative_finger_upper">
+      <origin xyz="-0.0323319 0 0.15725" rpy="0 0.1682130907 0" />
+      <geometry>
+        <cylinder radius="0.012" length="0.0512229865" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_b_negative_tactile_lower">
+      <origin xyz="-0.0193099 -0.001 0.107" rpy="0 -0.284466131 0" />
+      <geometry>
+        <cylinder radius="0.0055" length="0.05209355576" />
+      </geometry>
+      <material name="tacclaw_tactile" />
+    </visual>
+    <visual name="arm_b_negative_tactile_upper">
+      <origin xyz="-0.0223319 -0.001 0.15725" rpy="0 0.1682130907 0" />
+      <geometry>
+        <cylinder radius="0.005" length="0.0512229865" />
+      </geometry>
+      <material name="tacclaw_tactile" />
+    </visual>
+    <visual name="arm_b_negative_tip">
+      <origin xyz="-0.028044 0 0.1825" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.012" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_b_positive_finger_lower">
+      <origin xyz="0.0293099 0 0.107" rpy="0 0.284466131 0" />
+      <geometry>
+        <cylinder radius="0.015" length="0.05209355576" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_b_positive_finger_upper">
+      <origin xyz="0.0323319 0 0.15725" rpy="0 -0.1682130907 0" />
+      <geometry>
+        <cylinder radius="0.012" length="0.0512229865" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+    <visual name="arm_b_positive_tactile_lower">
+      <origin xyz="0.0193099 -0.001 0.107" rpy="0 0.284466131 0" />
+      <geometry>
+        <cylinder radius="0.0055" length="0.05209355576" />
+      </geometry>
+      <material name="tacclaw_tactile" />
+    </visual>
+    <visual name="arm_b_positive_tactile_upper">
+      <origin xyz="0.0223319 -0.001 0.15725" rpy="0 -0.1682130907 0" />
+      <geometry>
+        <cylinder radius="0.005" length="0.0512229865" />
+      </geometry>
+      <material name="tacclaw_tactile" />
+    </visual>
+    <visual name="arm_b_positive_tip">
+      <origin xyz="0.028044 0 0.1825" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.012" />
+      </geometry>
+      <material name="tacclaw_charcoal" />
+    </visual>
+  </link>
+  <joint name="arm_b_tacclaw_mount" type="fixed">
+    <parent link="arm_b_link7" />
+    <child link="arm_b_tacclaw_visual" />
+    <origin xyz="0.031 0 -0.0235" rpy="0 1.570796326794897 0" />
+  </joint>
+</robot>
